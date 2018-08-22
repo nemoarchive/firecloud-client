@@ -279,6 +279,8 @@ def untar_file(path):
     # We need this top perform the exraction in the same directory
     tardir = os.path.dirname(path)
 
+    contents = None
+
     try:
         tar = tarfile.open(path, "r")
         contents = tar.getmembers()
