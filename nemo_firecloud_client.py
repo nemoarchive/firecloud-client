@@ -165,6 +165,10 @@ def download_manifest(manifest, destination, bucket, no_verify=False, block_size
                 current_byte += len(buffer)
                 generate_status_message("{0}  [{1}%]".format(current_byte, int(current_byte * 100 / file_size)))
 
+            file.flush()
+
+            file.close()
+
             # Move the .partial file to the final name
             shutil.move(tmp_file_name, file_name)
 
@@ -300,8 +304,15 @@ def create_descriptor(file_groups, directory, timestamp):
 
     print("Processing {} {} of files.".format(len(file_groups), plural))
 
+    # Determine the path to the sample descriptor file
     sample_file_path = os.path.join(directory, 'sample-{}.txt'.format(timestamp))
     sample_fh = open(sample_file_path, 'w')
+
+    # Create the header line
+    sample_fh.write(
+        "\t".join(["sample_id", "fastq_file_1",
+                   "fastq_file_2", "fastq_file_3"]) + "\n"
+    )
 
     for group_list in file_groups:
         # Each "group" of 10X files has three files in it: an R1 file, and R2 file, and an I1 file
