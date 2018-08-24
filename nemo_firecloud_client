@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Wrapper Python script for running the nemo_firecloud_client tool."""
+
+import nemo_firecloud_client
+
+if __name__ == '__main__':
+    nemo_firecloud_client.RunMain()
